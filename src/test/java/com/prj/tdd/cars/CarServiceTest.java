@@ -28,7 +28,7 @@ public class CarServiceTest {
 
     @Test
     public void getCarDetails_returnCarDetails() {
-        given(this.carRepository.getCarDetails("Prius"))
+        given(this.carRepository.getFindByName("Prius"))
                 .willReturn(new Car("Prius", "Hybrid"));
 
         Car car = this.carService.getCarDetails("Prius");
@@ -38,9 +38,9 @@ public class CarServiceTest {
         assertThat("Hybrid".equals(car.getType()));
     }
 
-    @Test
+    @Test(expected = CarNotFoundException.class)
     public void getCarDetails_NotFound() throws Exception{
-        given(this.carRepository.getCarDetails("Prius")).willReturn(null);
+        given(this.carRepository.getFindByName("Prius")).willReturn(null);
         Car car = this.carService.getCarDetails("Prius");
         assertNull(car);
     }
